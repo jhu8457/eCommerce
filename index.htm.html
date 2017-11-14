@@ -1,0 +1,170 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title> MY ECOMMERCE STORE </title>
+
+        <style>
+        /* To make the heading a specific color and put it in the middle. */
+        h1{
+            color:blue;
+            text-align: center;
+            font-size: 150px
+        }
+        /* Set the width of the image. */
+        img {
+            width:200px;
+        }
+        input{
+            width:200px;
+        }
+        /* To set the background color of the div. */
+        div{
+            background-color:beige;
+        }
+        /* This element has a 2px black border and a green outline with a width of 10px.*/
+        p {
+            border: 2px solid black;
+            outline: #4CAF50 solid 10px;
+            margin: auto;    
+            padding: 20px;
+            text-align: center;
+        }
+        /* A more advanced technique where the backgound includes an owl on the left margin. */
+        body {
+        margin-left: 200px;
+        background: #5d9ab2 no-repeat top left;
+        }
+
+        .center_div {
+            border: 1px solid gray;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+            background-color: #d0f0f6;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        </style>
+
+        <script>
+            /* Joyce Hu
+            November 6 2017
+            eCommerce project - sale of 3 items
+            */
+
+            // Global variables - used throughout the whole program.
+            var p1 = 10, Wp1= 5;
+            var p2 = 12, Wp2= 6;
+            var p3 = 14, Wp3= 7;
+            var taxRate = 8.75;
+
+            function initPrices(){
+                document.getElementById("span1").innerHTML = "Price: $" + p1;
+                document.getElementById("span2").innerHTML = "Price: $" + p2; 
+                document.getElementById("span3").innerHTML = "Price: $" + p3;  
+            }
+
+            function ProcessOrder(){
+                //output
+                var op = document.getElementById("output");
+                //get item quantities
+                var q1 = parseInt (document.getElementById("qty1").value);
+                var q2 = parseInt (document.getElementById("qty2").value);
+                var q3 = parseInt (document.getElementById("qty3").value);
+                //all caluculations
+                var customer_subtotal = (p1*q1)+(p2*q2)+(p3*q3);
+                var CompanySubTotal = (Wp1*q1)+(Wp2*q2)+(Wp3*q3);
+                var p = customer_subtotal - CompanySubTotal;
+                var Itemsold = q1+q2+q3;
+                var tax = parseFloat((customer_subtotal * taxRate/100).toFixed(2));
+                var Shipping = 0;
+                var discounted_p = 0;
+            //determining the shipping and handling
+            if(customer_subtotal < 100){
+                Shipping += 25
+            }else if(customer_subtotal >= 100 && customer_subtotal <= 200){
+                Shipping += 10
+            }else{
+                Shipping += 0
+            }
+            var CustTotal = customer_subtotal + tax + Shipping;
+            //determing if the customer recieves the discount
+            if (Itemsold => 15){
+                discounted_p += customer_subtotal-(customer_subtotal*.10);
+            }else{
+                discounted_p = 0; 
+            }
+            var build = " ";
+            build += "<br><hr>";
+            build += "<pre>";//pre tag preserves all spaces 'as is';
+            build += "<u> **Customer Information** </u> <br>";//<u> underlines 
+            build += "Subtotal:                 $" + customer_subtotal + "<br>";
+            build += "Tax:                      $" + tax + "<br>";
+            build += "Shipping and Handling:    $" + Shipping + "<br>";
+            build += "Total:                    $" + CustTotal + "<br>";
+            build += "Discounted price:         $" + discounted_p + "<br><hr>";
+            build += "<u> **Company Information** </u><br>";
+            build += "Customer Subtotal:        $" + customer_subtotal + "<br>";
+            build += "Company Subtotal:         $" + CompanySubTotal + "<br>";
+            build += "Profit/Loss:              $" + p + "<br>";
+            build += "Total Item Sold:           " + Itemsold + "<br>";
+            //final display 
+            op.innerHTML = build;
+            }
+            //pop up box for a discount
+            window.alert("Recieve a 10% discount if you purchase 15 or more items");
+        </script>
+
+    </head>
+    <body onload="initPrices()">
+        <h1> Joyce's Bags </h1>
+        <div class="center_div">
+        <p> WELCOME TO JOYCE'S BAGS. HOPE YOU HAVE A WONDERFUL TIME SHOPPING HERE AND DON'T FORGET TO PURCHASE SOMETHING ;) </p>
+        <!-- Item 1 -->
+        <div>
+            <img src ="purse_1.jpg"><br>
+            <p>
+            This lovely peice of accescory can go along with any             outfit during the day. Wear it anywhere you want and 
+            totally have fun
+            Only exclusive at Joyce's Bags !
+            </p><br>
+            <span id = "span1"></span><br>
+            <input type = "text" id = "qty1" placeholder = "Enter quantity here">
+        </div>
+
+        <hr>
+        <!-- Item 2 -->
+        <div>
+            <img src ="purse_2.jpg" ><br>
+            <p> 
+            This amazing piece of accessory is filled with nice
+            and bright colors including white, black and blue.
+            Who doesn't love a multi-colored bag?
+            Only exclusive at Joyce's Bags  !
+            
+            </p><br>
+            <span id = "span2"></span><br>
+            <input type = "text" id = "qty2" placeholder = "Enter quantity here">
+        </div>
+
+        <hr>
+        <!-- Item 3 -->
+        <div>
+            <img src ="purse_3.png"><br>
+            <p> 
+            My last item might be the best of them all.
+            This item is to die for, this red bag is purely beautiful. 
+            Only exclusive at Joyce's Bags   !
+            
+            </p><br>
+            <span id = "span3"></span><br>
+            <input type = "text" id = "qty3" placeholder = "Enter quantity here">
+        </div>
+
+        <!-- Payment and processing -->
+        <button onclick = "ProcessOrder()"> Process Order </button>
+        <br>
+        <div id = "output"></div>
+    </body>
+</html>
